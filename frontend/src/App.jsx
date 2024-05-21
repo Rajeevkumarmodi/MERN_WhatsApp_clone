@@ -6,9 +6,9 @@ import Chat from "./components/chat/Chat";
 function App() {
   return (
     <div className="">
-      {/* <DilogBox />
-      <Messenger /> */}
-      <Chat />
+      <DilogBox />
+      <Messenger />
+      {/* <Chat /> */}
     </div>
   );
 }
