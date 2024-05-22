@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";
 
 // register function
 export async function register(req, res) {
-  const { name, email, password } = req.body;
+  const { name, email, password, about } = req.body;
+
   const profilePic = req?.file?.originalname;
 
   try {
@@ -28,6 +29,7 @@ export async function register(req, res) {
           const newUser = new User({
             name,
             email,
+            about,
             password: hashPassword,
             profilePic: cloudRes.secure_url,
           });

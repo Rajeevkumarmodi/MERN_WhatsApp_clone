@@ -3,7 +3,6 @@ import { FaWhatsapp } from "react-icons/fa";
 import DilogBox from "./DilogBox";
 
 function Messenger() {
-  const [isLogin, setIsLogin] = useState(false);
   return (
     <div>
       <div className="h-[150px] bg-[#00A783]">
