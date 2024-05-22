@@ -84,7 +84,12 @@ export async function loginWithEmailAndPassword(req, res) {
       res.status(200).json({
         success: true,
         message: "User login successfully",
-        token: token,
+        data: { ...checkUser, token },
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "User not  exits ",
       });
     }
   } catch (error) {

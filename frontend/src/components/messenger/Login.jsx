@@ -1,21 +1,61 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
+import toast, { Toaster } from "react-hot-toast";
+import { loginWithEmailAndPassword } from "../../api/api";
+import { userContext } from "../../context/context";
+import Spinner from "../Spinner";
 
 function Login({ setIsRegisterFormOpen }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { isLOgin, setIsLogin } = useContext(userContext);
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!formData.email || !formData.password) {
+      toast.error("All fields are required");
+    } else {
+      setIsLoading(true);
+      const res = await loginWithEmailAndPassword(formData);
+      console.log(res);
+      if (res.success) {
+        setIsLoading(false);
+        toast.success(res.message);
+        setIsLogin(true);
+        localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
+        localStorage.setItem(
+          "whatsApp_dp",
+          JSON.stringify(res.data._doc.profilePic)
+        );
+        localStorage.setItem(
+          "whatsApp_userName",
+          JSON.stringify(res.data._doc.name)
+        );
+      } else {
+        setIsLoading(false);
+        toast.error(res.message);
+      }
+    }
+  }
+
   return (
     <div className="inline-block relative left-[50%] translate-x-[-50%] ">
-      <form className="shadow-lg shadow-gray-500 rounded-lg px-[40px] py-3  flex flex-col items-center gap-3 m-auto">
+      <form
+        onSubmit={handleSubmit}
+        method="get"
+        className="shadow-lg shadow-gray-500 rounded-lg px-[40px] py-3  flex flex-col items-center gap-3 m-auto"
+      >
         <h3 className=" font-bold text-2xl text-green-700 mb-[-10px]">Login</h3>
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
@@ -31,7 +71,7 @@ function Login({ setIsRegisterFormOpen }) {
         <div className="flex flex-col">
           <label htmlFor="password">Password</label>
           <input
-            type="text"
+            type="password"
             id="password"
             className="border-[1px] border-gray-500 focus:outline-none rounded-md pl-2 pr-5 py-1"
             name="password"
@@ -50,8 +90,13 @@ function Login({ setIsRegisterFormOpen }) {
           </span>
         </p>
         <button className="bg-[#078066] w-full flex items-center justify-center gap-1 px-5 py-1 rounded-md text-white ">
-          <IoMdLogIn />
-          Login
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <IoMdLogIn /> Login{" "}
+            </>
+          )}
         </button>
 
         <p>OR</p>
@@ -61,6 +106,8 @@ function Login({ setIsRegisterFormOpen }) {
           Login With Google
         </button>
       </form>
+
+      <Toaster />
     </div>
   );
 }
