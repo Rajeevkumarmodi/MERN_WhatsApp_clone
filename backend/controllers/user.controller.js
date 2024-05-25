@@ -96,3 +96,52 @@ export async function loginWithEmailAndPassword(req, res) {
     return res.status(500).json({ success: false, message: error.message });
   }
 }
+
+// login with google
+
+export async function loginWithGoogle(req, res) {
+  const { email, name, profilePic, sub } = req.body;
+
+  if (!email || !name || !profilePic || !sub) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Invalid credentials" });
+  }
+
+  try {
+    const checkUser = await User.findOne({ email });
+
+    if (checkUser) {
+      const token = jwt.sign(
+        { userId: checkUser._id },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "30d" }
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "User login successfully",
+        data: { ...checkUser, token },
+      });
+    } else {
+      const newUser = new User({ name, email, profilePic, googleId: sub });
+
+      await newUser.save();
+
+      // token generate
+      const token = jwt.sign(
+        { userId: newUser._id },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "30d" }
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "User login successfully",
+        data: { ...newUser, token },
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}

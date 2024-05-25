@@ -33,3 +33,23 @@ export async function loginWithEmailAndPassword(data) {
     return error;
   }
 }
+
+// google login
+
+export async function googleLogin(data) {
+  try {
+    const res = await fetch(`${baseUrl}/google/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    console.log("result", res);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}

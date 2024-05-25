@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { FaGoogle } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 import { IoMdLogIn } from "react-icons/io";
 import toast, { Toaster } from "react-hot-toast";
-import { loginWithEmailAndPassword } from "../../api/api";
+import { googleLogin, loginWithEmailAndPassword } from "../../api/api";
 import { userContext } from "../../context/context";
 import Spinner from "../Spinner";
 
@@ -46,6 +47,33 @@ function Login({ setIsRegisterFormOpen }) {
         setIsLoading(false);
         toast.error(res.message);
       }
+    }
+  }
+
+  async function googleHandleSubmit(response) {
+    const data = jwtDecode(response.credential);
+
+    const { name, email, sub, picture } = data;
+
+    const obj = { name: name, email, sub, profilePic: picture };
+
+    const res = await googleLogin(obj);
+
+    if (res.success) {
+      toast.success(res.message);
+      setIsLogin(true);
+      localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
+      localStorage.setItem(
+        "whatsApp_dp",
+        JSON.stringify(res.data._doc.profilePic)
+      );
+      localStorage.setItem(
+        "whatsApp_userName",
+        JSON.stringify(res.data._doc.name)
+      );
+    } else {
+      setIsLoading(false);
+      toast.error(res.message);
     }
   }
 
@@ -101,10 +129,14 @@ function Login({ setIsRegisterFormOpen }) {
 
         <p>OR</p>
 
-        <button className="bg-[#078066] w-full flex items-center justify-center gap-1 px-5 py-1 rounded-md text-white ">
-          <FaGoogle />
-          Login With Google
-        </button>
+        <div className="w-full flex justify-center ">
+          <GoogleLogin
+            onSuccess={googleHandleSubmit}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+        </div>
       </form>
 
       <Toaster />
