@@ -34,15 +34,16 @@ function Login({ setIsRegisterFormOpen }) {
         setIsLoading(false);
         toast.success(res.message);
         setIsLogin(true);
+
+        const info = {
+          token: res.data.toast,
+          dp: res.data._doc.profilePic,
+          name: res.data._doc.name,
+          about: res.data._doc.about,
+        };
+
         localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
-        localStorage.setItem(
-          "whatsApp_dp",
-          JSON.stringify(res.data._doc.profilePic)
-        );
-        localStorage.setItem(
-          "whatsApp_userName",
-          JSON.stringify(res.data._doc.name)
-        );
+        localStorage.setItem("whatsApp_userInfo", JSON.stringify(info));
       } else {
         setIsLoading(false);
         toast.error(res.message);
@@ -62,15 +63,14 @@ function Login({ setIsRegisterFormOpen }) {
     if (res.success) {
       toast.success(res.message);
       setIsLogin(true);
+      const info = {
+        token: res.data.toast,
+        name: res.data._doc.profilePic,
+        dp: res.data._doc.name,
+      };
+
       localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
-      localStorage.setItem(
-        "whatsApp_dp",
-        JSON.stringify(res.data._doc.profilePic)
-      );
-      localStorage.setItem(
-        "whatsApp_userName",
-        JSON.stringify(res.data._doc.name)
-      );
+      localStorage.setItem("whatsApp_userInfo", JSON.stringify(info));
     } else {
       setIsLoading(false);
       toast.error(res.message);

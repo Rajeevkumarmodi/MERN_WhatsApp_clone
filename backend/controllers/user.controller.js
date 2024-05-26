@@ -145,3 +145,15 @@ export async function loginWithGoogle(req, res) {
     return res.status(500).json({ success: false, message: error.message });
   }
 }
+
+// all users
+
+export async function allUsers(req, res) {
+  try {
+    const allUsers = await User.find({}).select("-password");
+
+    return res.status(200).json({ success: true, message: "", data: allUsers });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}

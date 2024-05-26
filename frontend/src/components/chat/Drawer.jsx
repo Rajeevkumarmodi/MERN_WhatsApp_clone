@@ -1,16 +1,38 @@
-import React, { useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import React, { useContext, useState } from "react";
 import { FaArrowLeft, FaCamera } from "react-icons/fa";
+import { LuSave } from "react-icons/lu";
+
 import avatar from "../../assets/avatar.png";
 import { MdEdit } from "react-icons/md";
+import { userContext } from "../../context/context";
 
 function Drawer({ isOpen, setIsOpen }) {
-  const [image, setImage] = useState("");
+  const { userInfo } = useContext(userContext);
+  const [image, setImage] = useState(userInfo.dp);
+  const [nameAndAbout, setNameAndAbout] = useState({
+    name: userInfo.name,
+    about: userInfo.about,
+  });
+
+  const [isClickEditIcon, setIsClickEditIcon] = useState({
+    name: false,
+    about: false,
+  });
 
   function handleChange(e) {
     const url = URL.createObjectURL(e.target.files[0]);
     setImage(url);
   }
+
+  function handleChangeNameAndEmail(e) {
+    const { name, value } = e.target;
+
+    setNameAndAbout({ ...nameAndAbout, [name]: value });
+  }
+
+  function handleSaveName() {}
+
+  function handleSaveAbout() {}
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -54,8 +76,27 @@ function Drawer({ isOpen, setIsOpen }) {
         <div className="bg-white my-4  py-2 px-3">
           <p>Your name</p>
           <div className="flex mt-3 items-center justify-between">
-            <p>Rajeev Modi</p>
-            <MdEdit className="text-[#208f77] cursor-pointer" />
+            {isClickEditIcon.name ? (
+              <input
+                autoFocus={true}
+                className="border-[1.5px] border-gray-200 w-[90%] rounded-md px-2"
+                value={nameAndAbout.name}
+                onChange={handleChangeNameAndEmail}
+                type="text"
+                name="name"
+              />
+            ) : (
+              <p>{userInfo.name}</p>
+            )}
+
+            {isClickEditIcon.name ? (
+              <LuSave onClick={handleSaveName} className="cursor-pointer" />
+            ) : (
+              <MdEdit
+                onClick={() => setIsClickEditIcon({ name: true, about: false })}
+                className="text-[#208f77] cursor-pointer"
+              />
+            )}
           </div>
         </div>
 
@@ -69,8 +110,28 @@ function Drawer({ isOpen, setIsOpen }) {
         <div className="bg-white mt-4 py-2 px-3">
           <p>About</p>
           <div className="flex mt-3 items-center justify-between">
-            <p>Nothing to my about👍</p>
-            <MdEdit className="text-[#208f77] cursor-pointer" />
+            {isClickEditIcon.about ? (
+              <input
+                autoFocus={true}
+                className="border-[1.5px] border-gray-200 w-[90%] rounded-md px-2"
+                value={nameAndAbout.about}
+                onChange={handleChangeNameAndEmail}
+                type="text"
+                name="about"
+              />
+            ) : (
+              <p>{userInfo.about}</p>
+            )}
+            {isClickEditIcon.status ? (
+              <LuSave onClick={handleSaveStatus} className="cursor-pointer" />
+            ) : (
+              <MdEdit
+                onClick={() =>
+                  setIsClickEditIcon({ name: false, status: true })
+                }
+                className="text-[#208f77] cursor-pointer"
+              />
+            )}
           </div>
         </div>
       </div>

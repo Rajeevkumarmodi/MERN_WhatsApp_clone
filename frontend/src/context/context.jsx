@@ -5,10 +5,21 @@ export const userContext = createContext();
 const UserContext = ({ children }) => {
   const [isRegisterFormOpen, setIsRegisterFormOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     const localToken = localStorage.getItem("whatsApp_token");
     localToken ? setIsLogin(true) : setIsLogin(false);
+  }, []);
+
+  useEffect(() => {
+    const localToken = localStorage.getItem("whatsApp_token");
+    if (localToken) {
+      const info = JSON.parse(localStorage.getItem("whatsApp_userInfo"));
+      setUserInfo(info);
+    } else {
+      setUserInfo(null);
+    }
   }, []);
 
   return (
@@ -18,6 +29,7 @@ const UserContext = ({ children }) => {
         setIsRegisterFormOpen,
         isLogin,
         setIsLogin,
+        userInfo,
       }}
     >
       {children}

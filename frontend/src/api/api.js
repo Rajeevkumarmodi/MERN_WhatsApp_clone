@@ -47,7 +47,26 @@ export async function googleLogin(data) {
     });
 
     const result = await res.json();
-    console.log("result", res);
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
+// all users
+
+export async function getAllUsers() {
+  const token = JSON.parse(localStorage.getItem("whatsApp_token"));
+  try {
+    const res = await fetch(`${baseUrl}/allusers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await res.json();
     return result;
   } catch (error) {
     return error;
