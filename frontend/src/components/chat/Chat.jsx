@@ -8,6 +8,7 @@ import EmptyChat from "./EmptyChat";
 import Drawer from "./Drawer";
 import SmallTogalModal from "./SmallTogalModal";
 import { getAllUsers } from "../../api/api";
+import ChatBox from "./ChatBox";
 
 function Chat() {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -56,7 +57,8 @@ function Chat() {
       </div>
       {/* right */}
       <div className=" md:w-[75%] w-[500px] overflow-x-auto">
-        <EmptyChat />
+        {/* <EmptyChat /> */}
+        <ChatBox />
       </div>
       <Toaster />
     </div>

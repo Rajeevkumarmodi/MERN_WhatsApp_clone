@@ -40,7 +40,7 @@ function Drawer({ isOpen, setIsOpen }) {
   return (
     <div>
       <div
-        className={`fixed top-0 left-0 z-40 h-screen ease-in-out duration-500 overflow-y-auto transition-transform bg-gray-100 w-80 ${
+        className={`fixed top-0 left-0 z-40 h-screen ease-in-out duration-500 overflow-y-auto transition-transform bg-gray-100 w-[350px] ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         tabIndex="-1"
