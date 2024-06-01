@@ -72,3 +72,24 @@ export async function getAllUsers() {
     return error;
   }
 }
+
+// create conversation
+
+export async function createConversationApi(id) {
+  const token = JSON.parse(localStorage.getItem("whatsApp_token"));
+  try {
+    const res = await fetch(`${baseUrl}/conversation/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ receiverId: id }),
+    });
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+}

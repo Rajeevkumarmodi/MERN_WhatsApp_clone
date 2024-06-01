@@ -1,12 +1,19 @@
 import React, { useContext } from "react";
 import avatar from "../../assets/avatar.png";
 import { userContext } from "../../context/context";
+import { createConversationApi } from "../../api/api";
 
 function Account(props) {
   const { setSelectedUserForChat } = useContext(userContext);
 
   function clickSingleUser() {
     setSelectedUserForChat(props.user);
+    createConversation();
+  }
+
+  async function createConversation() {
+    const res = await createConversationApi(props.user._id);
+    console.log(res);
   }
 
   return (
