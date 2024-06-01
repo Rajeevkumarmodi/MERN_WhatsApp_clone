@@ -8,10 +8,10 @@ import { userContext } from "../../context/context";
 
 function Drawer({ isOpen, setIsOpen }) {
   const { userInfo } = useContext(userContext);
-  const [image, setImage] = useState(userInfo.dp);
+  const [image, setImage] = useState(userInfo?.dp);
   const [nameAndAbout, setNameAndAbout] = useState({
-    name: userInfo.name,
-    about: userInfo.about,
+    name: userInfo?.name,
+    about: userInfo?.about,
   });
 
   const [isClickEditIcon, setIsClickEditIcon] = useState({
@@ -86,7 +86,7 @@ function Drawer({ isOpen, setIsOpen }) {
                 name="name"
               />
             ) : (
-              <p>{userInfo.name}</p>
+              <p>{userInfo?.name}</p>
             )}
 
             {isClickEditIcon.name ? (
@@ -120,7 +120,7 @@ function Drawer({ isOpen, setIsOpen }) {
                 name="about"
               />
             ) : (
-              <p>{userInfo.about}</p>
+              <p>{userInfo?.about}</p>
             )}
             {isClickEditIcon.status ? (
               <LuSave onClick={handleSaveStatus} className="cursor-pointer" />

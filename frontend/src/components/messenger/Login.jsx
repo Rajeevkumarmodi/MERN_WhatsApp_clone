@@ -40,6 +40,7 @@ function Login({ setIsRegisterFormOpen }) {
           dp: res.data._doc.profilePic,
           name: res.data._doc.name,
           about: res.data._doc.about,
+          id: res.data._doc._id,
         };
 
         localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
@@ -67,6 +68,7 @@ function Login({ setIsRegisterFormOpen }) {
         token: res.data.toast,
         name: res.data._doc.profilePic,
         dp: res.data._doc.name,
+        id: res.data._doc._id,
       };
 
       localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import ChatLeftHeader from "./ChatLeftHeader";
@@ -9,11 +9,15 @@ import Drawer from "./Drawer";
 import SmallTogalModal from "./SmallTogalModal";
 import { getAllUsers } from "../../api/api";
 import ChatBox from "./ChatBox";
+import Conversation from "./Conversation";
+import { userContext } from "../../context/context";
 
 function Chat() {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenSmallTogalModal, setIsOpenSmallTogalModal] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
+
+  const { selectedUserForChat } = useContext(userContext);
 
   async function handleCallAlluser() {
     const res = await getAllUsers();
@@ -48,17 +52,14 @@ function Chat() {
         />
         <SearchBox />
 
-        {allUsers?.map((user, i) => (
-          <Fragment key={i}>
-            <Account user={user} />
-          </Fragment>
-        ))}
+        <Conversation allUsers={allUsers} />
+
         <Drawer isOpen={isOpenDrawer} setIsOpen={setIsOpenDrawer} />
       </div>
+
       {/* right */}
       <div className=" md:w-[75%] w-[500px] overflow-x-auto">
-        {/* <EmptyChat /> */}
-        <ChatBox />
+        {selectedUserForChat?._id ? <ChatBox /> : <EmptyChat />}
       </div>
       <Toaster />
     </div>

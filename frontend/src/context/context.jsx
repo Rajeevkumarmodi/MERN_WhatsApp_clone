@@ -6,6 +6,7 @@ const UserContext = ({ children }) => {
   const [isRegisterFormOpen, setIsRegisterFormOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const [selectedUserForChat, setSelectedUserForChat] = useState(null);
 
   useEffect(() => {
     const localToken = localStorage.getItem("whatsApp_token");
@@ -30,6 +31,8 @@ const UserContext = ({ children }) => {
         isLogin,
         setIsLogin,
         userInfo,
+        selectedUserForChat,
+        setSelectedUserForChat,
       }}
     >
       {children}
