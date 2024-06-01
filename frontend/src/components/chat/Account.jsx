@@ -13,6 +13,7 @@ function Account(props) {
 
   async function createConversation() {
     const res = await createConversationApi(props.user._id);
+    props.setConversationId(res.conversationId);
     console.log(res);
   }
 

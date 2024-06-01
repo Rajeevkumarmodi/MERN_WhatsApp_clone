@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import { GrAttachment } from "react-icons/gr";
 import { IoMdSend } from "react-icons/io";
 import { CiMicrophoneOn } from "react-icons/ci";
 import ChatBoxHeader from "./ChatBoxHeader";
+import { sendMessageApi } from "../../api/api";
+import { userContext } from "../../context/context";
 
 const bgImage =
   "https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png";
 
-function ChatBox() {
+function ChatBox(props) {
+  const [chatMessage, setChatMessage] = useState("");
+
+  const { selectedUserForChat } = useContext(userContext);
+
+  async function handleSendMessage() {
+    if (!chatMessage) return;
+
+    const data = {
+      conversationId: props.conversationId,
+      text: chatMessage,
+      receiverId: selectedUserForChat._id,
+      type: "text",
+    };
+
+    const res = await sendMessageApi(data);
+    if (res.success) {
+      setChatMessage("");
+    }
+  }
+
   return (
     <div className="bg-chatbox-bg bg-cover flex flex-col justify-between bg-center h-screen">
       {/* header */}
@@ -22,11 +44,18 @@ function ChatBox() {
             <input
               className=" outline-none bg-gray-300 md:w-[50vw] w-[40vw]"
               type="text"
+              value={chatMessage}
+              onChange={(e) => setChatMessage(e.target.value)}
               placeholder="Type a message"
             />
           </div>
           <div className="flex gap-2">
-            <IoMdSend className="text-2xl cursor-pointer" />
+            <IoMdSend
+              onClick={handleSendMessage}
+              className={`${
+                chatMessage ? "cursor-pointer" : "cursor-default text-gray-400"
+              } text-2xl`}
+            />
             <CiMicrophoneOn className="text-2xl cursor-pointer" />
           </div>
         </footer>

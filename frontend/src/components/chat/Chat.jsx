@@ -16,6 +16,7 @@ function Chat() {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isOpenSmallTogalModal, setIsOpenSmallTogalModal] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
+  const [conversationId, setConversationId] = useState("");
 
   const { selectedUserForChat } = useContext(userContext);
 
@@ -52,14 +53,21 @@ function Chat() {
         />
         <SearchBox />
 
-        <Conversation allUsers={allUsers} />
+        <Conversation
+          setConversationId={setConversationId}
+          allUsers={allUsers}
+        />
 
         <Drawer isOpen={isOpenDrawer} setIsOpen={setIsOpenDrawer} />
       </div>
 
       {/* right */}
       <div className=" md:w-[75%] w-[500px] overflow-x-auto">
-        {selectedUserForChat?._id ? <ChatBox /> : <EmptyChat />}
+        {selectedUserForChat?._id ? (
+          <ChatBox conversationId={conversationId} />
+        ) : (
+          <EmptyChat />
+        )}
       </div>
       <Toaster />
     </div>
