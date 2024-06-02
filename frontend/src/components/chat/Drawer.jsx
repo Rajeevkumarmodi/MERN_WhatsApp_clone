@@ -6,7 +6,7 @@ import avatar from "../../assets/avatar.png";
 import { MdEdit } from "react-icons/md";
 import { userContext } from "../../context/context";
 
-function Drawer({ isOpen, setIsOpen }) {
+function Drawer({ isOpen, setIsOpen, userData, isReadOnly }) {
   const { userInfo } = useContext(userContext);
   const [image, setImage] = useState(userInfo?.dp);
   const [nameAndAbout, setNameAndAbout] = useState({
@@ -57,10 +57,10 @@ function Drawer({ isOpen, setIsOpen }) {
         <div className="relative flex justify-center py-4">
           <img
             className=" w-[120px] h-[120px] rounded-full"
-            src={image ? image : avatar}
+            src={userData?.profilePic ? userData?.profilePic : avatar}
             alt="dp"
           />
-          <div>
+          <div className={`${isReadOnly ? "hidden" : "block"}`}>
             <label htmlFor="image">
               <FaCamera className=" text-[#26a68a] text-xl cursor-pointer absolute bottom-6 right-[33%] " />
             </label>
@@ -75,7 +75,18 @@ function Drawer({ isOpen, setIsOpen }) {
 
         <div className="bg-white my-4  py-2 px-3">
           <p>Your name</p>
-          <div className="flex mt-3 items-center justify-between">
+          {/* if isReadOnly is true then show this div otherwise hidden */}
+
+          <div className={`${isReadOnly ? "block" : "hidden"}`}>
+            <p>{userData?.name}</p>
+          </div>
+
+          {/* if isReadOnly is false then show this div otherwise hidden */}
+          <div
+            className={`flex mt-3 items-center justify-between ${
+              isReadOnly ? "hidden" : "block"
+            }`}
+          >
             {isClickEditIcon.name ? (
               <input
                 autoFocus={true}
@@ -109,7 +120,20 @@ function Drawer({ isOpen, setIsOpen }) {
 
         <div className="bg-white mt-4 py-2 px-3">
           <p>About</p>
-          <div className="flex mt-3 items-center justify-between">
+
+          {/* if isReadOnly is true then show this div otherwise hidden */}
+
+          <div className={`${isReadOnly ? "block" : "hidden"}`}>
+            <p>{userData?.about}</p>
+          </div>
+
+          {/* if isReadOnly is false then show this div otherwise hidden */}
+
+          <div
+            className={`flex mt-3 items-center justify-between ${
+              isReadOnly ? "hidden" : "block"
+            }`}
+          >
             {isClickEditIcon.about ? (
               <input
                 autoFocus={true}

@@ -14,11 +14,13 @@ import { userContext } from "../../context/context";
 
 function Chat() {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isOpenDrawerSelectedUser, setIsOpenDrawerSelectedUser] =
+    useState(false);
   const [isOpenSmallTogalModal, setIsOpenSmallTogalModal] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
   const [conversationId, setConversationId] = useState("");
 
-  const { selectedUserForChat } = useContext(userContext);
+  const { selectedUserForChat, userInfo } = useContext(userContext);
 
   async function handleCallAlluser() {
     const res = await getAllUsers();
@@ -55,16 +57,35 @@ function Chat() {
 
         <Conversation
           setConversationId={setConversationId}
+          isOpenDrawer={isOpenDrawer}
+          setIsOpenDrawer={setIsOpenDrawer}
           allUsers={allUsers}
         />
 
-        <Drawer isOpen={isOpenDrawer} setIsOpen={setIsOpenDrawer} />
+        {/* drawer from login user */}
+        <Drawer
+          isOpen={isOpenDrawer}
+          setIsOpen={setIsOpenDrawer}
+          userData={userInfo}
+          isReadOnly={false}
+        />
+
+        {/* drawer for selected user read only */}
+        <Drawer
+          isOpen={isOpenDrawerSelectedUser}
+          setIsOpen={setIsOpenDrawerSelectedUser}
+          userData={selectedUserForChat}
+          isReadOnly={true}
+        />
       </div>
 
       {/* right */}
       <div className=" md:w-[75%] w-[500px] overflow-x-auto">
         {selectedUserForChat?._id ? (
-          <ChatBox conversationId={conversationId} />
+          <ChatBox
+            conversationId={conversationId}
+            setIsOpenDrawer={setIsOpenDrawerSelectedUser}
+          />
         ) : (
           <EmptyChat />
         )}

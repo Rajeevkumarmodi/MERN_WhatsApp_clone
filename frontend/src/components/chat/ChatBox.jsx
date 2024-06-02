@@ -55,7 +55,7 @@ function ChatBox(props) {
   return (
     <div className="bg-chatbox-bg bg-cover flex flex-col justify-between bg-center h-screen">
       {/* header */}
-      <ChatBoxHeader />
+      <ChatBoxHeader setIsOpenDrawer={props.setIsOpenDrawer} />
 
       <div className="h-[calc(100%-50px)]  flex flex-col justify-between">
         <div className=" overflow-y-auto px-3">

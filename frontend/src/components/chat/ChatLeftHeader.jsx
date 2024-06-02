@@ -12,7 +12,7 @@ function ChatLeftHeader({ isOpen, setIsOpen, setIsOpenSmallTogalModal }) {
       <img
         onClick={() => setIsOpen(true)}
         className="w-[40px] h-[40px] rounded-full cursor-pointer "
-        src={userInfo?.dp}
+        src={userInfo?.profilePic ? userInfo?.profilePic : avatar}
         alt="dp"
       />
       <div className=" relative flex items-center gap-2">

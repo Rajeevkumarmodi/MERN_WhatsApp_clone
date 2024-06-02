@@ -37,7 +37,7 @@ function Login({ setIsRegisterFormOpen }) {
 
         const info = {
           token: res.data.toast,
-          dp: res.data._doc.profilePic,
+          profilePic: res.data._doc.profilePic,
           name: res.data._doc.name,
           about: res.data._doc.about,
           id: res.data._doc._id,
@@ -66,8 +66,8 @@ function Login({ setIsRegisterFormOpen }) {
       setIsLogin(true);
       const info = {
         token: res.data.toast,
-        name: res.data._doc.profilePic,
-        dp: res.data._doc.name,
+        name: res.data._doc.name,
+        profilePic: res.data._doc.profilePic,
         id: res.data._doc._id,
       };
 

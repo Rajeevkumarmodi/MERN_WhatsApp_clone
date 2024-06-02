@@ -3,16 +3,24 @@ import { CiSearch } from "react-icons/ci";
 import { RxAvatar } from "react-icons/rx";
 import { CiMenuKebab } from "react-icons/ci";
 import { userContext } from "../../context/context";
+import avatar from "../../assets/avatar.png";
 
-function ChatBoxHeader() {
+function ChatBoxHeader({ setIsOpenDrawer }) {
   const { selectedUserForChat } = useContext(userContext);
   return (
     <header className="bg-gray-300 md:px-8 px-4 flex items-center justify-between w-full h-[48px]">
-      <div className="flex gap-1">
+      <div
+        onClick={() => setIsOpenDrawer(true)}
+        className="flex gap-1 cursor-pointer"
+      >
         {selectedUserForChat?.profilePic ? (
           <img
             className="w-10 h-10 rounded-full"
-            src={selectedUserForChat.profilePic}
+            src={
+              selectedUserForChat.profilePic
+                ? selectedUserForChat.profilePic
+                : avatar
+            }
             alt="prfile pic"
           />
         ) : (
