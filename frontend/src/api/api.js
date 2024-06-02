@@ -114,3 +114,23 @@ export async function sendMessageApi(data) {
     return error;
   }
 }
+
+// get all messages
+
+export async function getAllMessages(id) {
+  const token = JSON.parse(localStorage.getItem("whatsApp_token"));
+  try {
+    const res = await fetch(`${baseUrl}/message/all/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+}

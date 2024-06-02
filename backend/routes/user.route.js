@@ -9,7 +9,10 @@ import {
 import uploader from "../middleware/multer.js";
 import userAuth from "../middleware/authMiddleware.js";
 import { createConversation } from "../controllers/conversation.controller.js";
-import { sendNewMessage } from "../controllers/message.controller.js";
+import {
+  getAllMessages,
+  sendNewMessage,
+} from "../controllers/message.controller.js";
 
 const router = express.Router();
 
@@ -19,5 +22,6 @@ router.post("/google/login", loginWithGoogle);
 router.get("/allusers", userAuth, allUsers);
 router.post("/conversation/create", userAuth, createConversation);
 router.post("/newmessage", userAuth, sendNewMessage);
+router.get("/message/all/:id", userAuth, getAllMessages);
 
 export default router;

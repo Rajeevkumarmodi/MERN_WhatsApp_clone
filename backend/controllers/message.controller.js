@@ -27,3 +27,16 @@ export async function sendNewMessage(req, res) {
     return res.status(500).json({ success: false, message: error.message });
   }
 }
+
+// get all messages
+
+export async function getAllMessages(req, res) {
+  const { id } = req.params;
+  try {
+    const allMessages = await Message.find({ conversationId: id });
+
+    return res.status(200).json({ success: true, data: allMessages });
+  } catch (error) {
+    return res.status(500).json({ success: true, message: error.message });
+  }
+}
