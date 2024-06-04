@@ -11,6 +11,7 @@ import userAuth from "../middleware/authMiddleware.js";
 import { createConversation } from "../controllers/conversation.controller.js";
 import {
   getAllMessages,
+  sendFile,
   sendNewMessage,
 } from "../controllers/message.controller.js";
 
@@ -23,5 +24,6 @@ router.get("/allusers", userAuth, allUsers);
 router.post("/conversation/create", userAuth, createConversation);
 router.post("/newmessage", userAuth, sendNewMessage);
 router.get("/message/all/:id", userAuth, getAllMessages);
+router.post("/message/sendfile", userAuth, uploader.single("file"), sendFile);
 
 export default router;

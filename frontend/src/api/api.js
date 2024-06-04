@@ -134,3 +134,22 @@ export async function getAllMessages(id) {
     return error;
   }
 }
+
+export async function sendFileApi(data) {
+  const token = JSON.parse(localStorage.getItem("whatsApp_token"));
+  try {
+    const res = await fetch(`${baseUrl}/message/sendfile`, {
+      method: "POST",
+      headers: {
+        // "Content-Type": "/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+    });
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
