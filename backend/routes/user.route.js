@@ -4,6 +4,8 @@ import {
   loginWithEmailAndPassword,
   loginWithGoogle,
   register,
+  updateAbout,
+  updateName,
 } from "../controllers/user.controller.js";
 // import uploader from "../middleware/multer.js";
 import uploader from "../middleware/multer.js";
@@ -25,5 +27,7 @@ router.post("/conversation/create", userAuth, createConversation);
 router.post("/newmessage", userAuth, sendNewMessage);
 router.get("/message/all/:id", userAuth, getAllMessages);
 router.post("/message/sendfile", userAuth, uploader.single("file"), sendFile);
+router.post("/update/name", userAuth, updateName);
+router.post("/update/about", userAuth, updateAbout);
 
 export default router;

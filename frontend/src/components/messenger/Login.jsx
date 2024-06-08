@@ -14,7 +14,7 @@ function Login({ setIsRegisterFormOpen }) {
     password: "",
   });
 
-  const { isLOgin, setIsLogin } = useContext(userContext);
+  const { isLOgin, setIsLogin, setUserInfo } = useContext(userContext);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -36,13 +36,12 @@ function Login({ setIsRegisterFormOpen }) {
         setIsLogin(true);
 
         const info = {
-          token: res.data.toast,
           profilePic: res.data._doc.profilePic,
           name: res.data._doc.name,
           about: res.data._doc.about,
           id: res.data._doc._id,
         };
-
+        setUserInfo(info);
         localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
         localStorage.setItem("whatsApp_userInfo", JSON.stringify(info));
       } else {
@@ -65,12 +64,12 @@ function Login({ setIsRegisterFormOpen }) {
       toast.success(res.message);
       setIsLogin(true);
       const info = {
-        token: res.data.toast,
         name: res.data._doc.name,
+        about: "",
         profilePic: res.data._doc.profilePic,
         id: res.data._doc._id,
       };
-
+      setUserInfo(info);
       localStorage.setItem("whatsApp_token", JSON.stringify(res.data.token));
       localStorage.setItem("whatsApp_userInfo", JSON.stringify(info));
     } else {

@@ -157,3 +157,53 @@ export async function allUsers(req, res) {
     return res.status(500).json({ success: false, message: error.message });
   }
 }
+
+// update name
+
+export async function updateName(req, res) {
+  const { name } = req.body;
+  const { userId } = req.userId;
+  try {
+    const updatedName = await User.findByIdAndUpdate(userId, {
+      $set: { name },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Name update successfully",
+      data: {
+        profilePic: updatedName.profilePic,
+        name,
+        about: updatedName.about,
+        id: updatedName._id,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+// update about
+
+export async function updateAbout(req, res) {
+  const { about } = req.body;
+  const { userId } = req.userId;
+  try {
+    const updatedName = await User.findByIdAndUpdate(userId, {
+      $set: { about },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Name update successfully",
+      data: {
+        profilePic: updatedName.profilePic,
+        name: updatedName.name,
+        about,
+        id: updatedName._id,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}

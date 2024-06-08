@@ -153,3 +153,47 @@ export async function sendFileApi(data) {
     return error;
   }
 }
+
+// update name
+
+export async function updateName(data) {
+  console.log("data", data);
+  const token = JSON.parse(localStorage.getItem("whatsApp_token"));
+  try {
+    const res = await fetch(`${baseUrl}/update/name`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+}
+
+// update about
+
+export async function updateAbout(data) {
+  console.log("data", data);
+  const token = JSON.parse(localStorage.getItem("whatsApp_token"));
+  try {
+    const res = await fetch(`${baseUrl}/update/about`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return error;
+  }
+}

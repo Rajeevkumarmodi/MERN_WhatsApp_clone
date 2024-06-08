@@ -31,6 +31,7 @@ const UserContext = ({ children }) => {
         isLogin,
         setIsLogin,
         userInfo,
+        setUserInfo,
         selectedUserForChat,
         setSelectedUserForChat,
       }}

@@ -5,9 +5,7 @@ import "./index.css";
 import UserContext from "./context/context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <UserContext>
-      <App />
-    </UserContext>
-  </React.StrictMode>
+  <UserContext>
+    <App />
+  </UserContext>
 );

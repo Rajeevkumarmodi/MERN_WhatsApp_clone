@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { FaArrowLeft, FaCamera } from "react-icons/fa";
 import { LuSave } from "react-icons/lu";
-
+import toast, { Toaster } from "react-hot-toast";
 import avatar from "../../assets/avatar.png";
 import { MdEdit } from "react-icons/md";
 import { userContext } from "../../context/context";
+import { updateAbout, updateName } from "../../api/api";
 
 function Drawer({ isOpen, setIsOpen, userData, isReadOnly }) {
   const { userInfo } = useContext(userContext);
@@ -19,20 +20,44 @@ function Drawer({ isOpen, setIsOpen, userData, isReadOnly }) {
     about: false,
   });
 
+  const { setUserInfo } = useContext(userContext);
+
   function handleChange(e) {
     const url = URL.createObjectURL(e.target.files[0]);
     setImage(url);
   }
 
-  function handleChangeNameAndEmail(e) {
+  function handleChangeNameAndAbout(e) {
     const { name, value } = e.target;
 
     setNameAndAbout({ ...nameAndAbout, [name]: value });
   }
 
-  function handleSaveName() {}
+  async function handleSaveName() {
+    setIsClickEditIcon({ name: false, about: false });
+    const res = await updateName({ name: nameAndAbout.name });
+    console.log(res);
+    if (res.success) {
+      toast.success(res.message);
+      localStorage.setItem("whatsApp_userInfo", JSON.stringify(res.data));
+      setUserInfo(res.data);
+    } else {
+      toast.error(res.message);
+    }
+  }
 
-  function handleSaveAbout() {}
+  async function handleSaveAbout() {
+    setIsClickEditIcon({ name: false, about: false });
+    const res = await updateAbout({ about: nameAndAbout.about });
+    console.log(res);
+    if (res.success) {
+      toast.success(res.message);
+      localStorage.setItem("whatsApp_userInfo", JSON.stringify(res.data));
+      setUserInfo(res.data);
+    } else {
+      toast.error(res.message);
+    }
+  }
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -92,7 +117,7 @@ function Drawer({ isOpen, setIsOpen, userData, isReadOnly }) {
                 autoFocus={true}
                 className="border-[1.5px] border-gray-200 w-[90%] rounded-md px-2"
                 value={nameAndAbout.name}
-                onChange={handleChangeNameAndEmail}
+                onChange={handleChangeNameAndAbout}
                 type="text"
                 name="name"
               />
@@ -139,26 +164,25 @@ function Drawer({ isOpen, setIsOpen, userData, isReadOnly }) {
                 autoFocus={true}
                 className="border-[1.5px] border-gray-200 w-[90%] rounded-md px-2"
                 value={nameAndAbout.about}
-                onChange={handleChangeNameAndEmail}
+                onChange={handleChangeNameAndAbout}
                 type="text"
                 name="about"
               />
             ) : (
               <p>{userInfo?.about}</p>
             )}
-            {isClickEditIcon.status ? (
-              <LuSave onClick={handleSaveStatus} className="cursor-pointer" />
+            {isClickEditIcon.about ? (
+              <LuSave onClick={handleSaveAbout} className="cursor-pointer" />
             ) : (
               <MdEdit
-                onClick={() =>
-                  setIsClickEditIcon({ name: false, status: true })
-                }
+                onClick={() => setIsClickEditIcon({ name: false, about: true })}
                 className="text-[#208f77] cursor-pointer"
               />
             )}
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
